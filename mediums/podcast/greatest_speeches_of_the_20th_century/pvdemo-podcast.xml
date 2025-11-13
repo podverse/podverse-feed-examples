@@ -1,0 +1,65 @@
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:podcast="https://github.com/Podcastindex-org/podcast-namespace/blob/main/docs/1.0.md" version="2.0">
+  <channel>
+    <title>PVDemo - Podcast</title>
+    <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis commodo lectus at orci rhoncus, sit amet facilisis felis scelerisque. Curabitur et malesuada est. Praesent eget felis quis libero facilisis blandit. Suspendisse potenti. In vel volutpat justo. Donec sed libero non lorem tincidunt facilisis eu sit amet sapien. Quisque vitae lobortis nibh. Quisque at velit at enim elementum dapibus. Vestibulum quis quam eros. In hac habitasse platea dictumst. Nam tristique, quam ut porta dignissim, ligula arcu dapibus felis, sit amet euismod lectus odio eu erat. Mauris vitae sapien mauris.</description>
+    <language>en</language>
+    <itunes:image href="https://files.podverse.fm/test-feeds/mediums/podcast/greatest_speeches_of_the_20th_century/assets/img/podcast-logo.png"/>
+    <link>https://podverse.fm</link>
+    <generator>Sovereign Feeds</generator>
+    <image>
+      <url>https://files.podverse.fm/test-feeds/mediums/podcast/greatest_speeches_of_the_20th_century/assets/img/podcast-logo.png</url>
+      <link>https://podverse.fm</link>
+      <title>PVDemo - Podcast</title>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis commodo lectus at orci rhoncus, sit amet facilisis felis scelerisque. Curabitur et malesuada est. Praesent eget felis quis libero facilisis blandit. Suspendisse potenti. In vel volutpat justo. Donec sed libero non lorem tincidunt facilisis eu sit amet sapien. Quisque vitae lobortis nibh. Quisque at velit at enim elementum dapibus. Vestibulum quis quam eros. In hac habitasse platea dictumst. Nam tristique, quam ut porta dignissim, ligula arcu dapibus felis, sit amet euismod lectus odio eu erat. Mauris vitae sapien mauris.</description>
+      <width>144</width>
+      <height>144</height>
+    </image>
+    <itunes:category text="History"/>
+    <itunes:category text=""/>
+    <podcast:medium>podcast</podcast:medium>
+    <podcast:complete>no</podcast:complete>
+    <podcast:block>no</podcast:block>
+    <itunes:owner>
+      <itunes:email/>
+      <itunes:name/>
+    </itunes:owner>
+    <pubDate>Thu, 13 Nov 2025 22:04:56 +0000</pubDate>
+    <lastBuildDate>Thu, 13 Nov 2025 22:04:56 +0000</lastBuildDate>
+    <category>History</category>
+    <category/>
+    <podcast:guid>1cdb9b35-b7f5-5e85-b8c1-79f37db32e0d</podcast:guid>
+    <item>
+      <title>Presidential Debate</title>
+      <description><![CDATA[<p>Fusce ut eros vitae ipsum egestas egestas a quis justo. Sed vitae justo eu augue condimentum malesuada. Phasellus commodo facilisis pellentesque. Cras viverra libero est, ut tincidunt turpis blandit eu. Mauris in quam bibendum, porta tortor quis, iaculis metus. Duis massa nibh, dictum at aliquet id, tempor id purus. Curabitur auctor sem a lacus tristique luctus. Nulla aliquet ullamcorper ipsum sit amet semper. Fusce leo felis, ultrices nec tortor nec, vulputate euismod ex. Duis eget dui ac magna pretium efficitur. In vel mollis est. In vitae ex at nunc pulvinar iaculis.&nbsp;</p>]]></description>
+      <itunes:image href="https://files.podverse.fm/test-feeds/mediums/podcast/greatest_speeches_of_the_20th_century/assets/img/1-PresidentialDebate.png"/>
+      <enclosure url="https://files.podverse.fm/test-feeds/mediums/podcast/greatest_speeches_of_the_20th_century/assets/converted/audio/1-PresidentialDebate_hifi.mp3" length="33" type="audio/mpeg"/>
+      <podcast:license url="">cc-by-3.0</podcast:license>
+      <valueTimeSplit feedGuid="" itemGuid="" startTime="" duration="" remotePercentage="">
+        <feed/>
+        <item/>
+        <podcast:valueRecipient name="" address="" type="lnaddress" customKey="" customValue="" split=""/>
+      </valueTimeSplit>
+      <guid isPermaLink="false">9468aba1-8a1a-4eda-9fda-f6ae6d117a88</guid>
+      <podcast:alternateEnclosure type="audio/mpeg" length="10804455" bitrate="256000" lang="en" codecs="mp3" default="true">
+        <podcast:source uri="https://files.podverse.fm/test-feeds/mediums/podcast/greatest_speeches_of_the_20th_century/assets/converted/audio/1-PresidentialDebate_hifi.mp3"/>
+      </podcast:alternateEnclosure>
+      <podcast:alternateEnclosure type="audio/mpeg" length="2701271" bitrate="64000" lang="en" codecs="mp3">
+        <podcast:source uri="https://files.podverse.fm/test-feeds/mediums/podcast/greatest_speeches_of_the_20th_century/assets/converted/audio/1-PresidentialDebate_lofi.mp3"/>
+      </podcast:alternateEnclosure>
+      <podcast:alternateEnclosure type="video/mp4" length="15461401" bitrate="366356" height="360" lang="en" codecs="avc1, mp4a.40.2">
+        <podcast:source uri="https://files.podverse.fm/test-feeds/mediums/podcast/greatest_speeches_of_the_20th_century/assets/converted/video/1-PresidentialDebate_lofi.mp4"/>
+      </podcast:alternateEnclosure>
+      <podcast:alternateEnclosure type="video/mp4" length="15373289" bitrate="364268" height="240" lang="en" codecs="avc1, mp4a.40.2">
+        <podcast:source uri="https://files.podverse.fm/test-feeds/mediums/podcast/greatest_speeches_of_the_20th_century/assets/converted/video/1-PresidentialDebate_lowerfi.mp4"/>
+      </podcast:alternateEnclosure>
+      <itunes:subtitle>Presidential Debate</itunes:subtitle>
+      <link>https://archive.org/details/Greatest_Speeches_of_the_20th_Century</link>
+      <pubDate>Thu, 13 Nov 2025 19:09:52 +0000</pubDate>
+      <itunes:explicit>No</itunes:explicit>
+      <author>John F. Kennedy, Richard Nixon</author>
+      <itunes:author>John F. Kennedy, Richard Nixon</itunes:author>
+      <itunes:keywords>debate, presidential debate,united states of america</itunes:keywords>
+      <itunes:summary><![CDATA[<p>Fusce ut eros vitae ipsum egestas egestas a quis justo. Sed vitae justo eu augue condimentum malesuada. Phasellus commodo facilisis pellentesque. Cras viverra libero est, ut tincidunt turpis blandit eu. Mauris in quam bibendum, porta tortor quis, iaculis metus. Duis massa nibh, dictum at aliquet id, tempor id purus. Curabitur auctor sem a lacus tristique luctus. Nulla aliquet ullamcorper ipsum sit amet semper. Fusce leo felis, ultrices nec tortor nec, vulputate euismod ex. Duis eget dui ac magna pretium efficitur. In vel mollis est. In vitae ex at nunc pulvinar iaculis.&nbsp;</p>]]></itunes:summary>
+    </item>
+  </channel>
+</rss>
