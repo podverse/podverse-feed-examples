@@ -87,6 +87,3 @@ $(VIDEO_DIR)/%_240p.mp4: $(ORIGINAL_VIDEO_DIR)/%.webm | $(VIDEO_DIR)
 
 $(VIDEO_DIR)/%_320p.mp4: $(ORIGINAL_VIDEO_DIR)/%.webm | $(VIDEO_DIR)
 				ffmpeg -y -i $< -vf scale=-2:320 -c:v libx264 -b:v 300k -c:a aac -b:a 32k $@
-
-music_clean:
-				rm -rf $(OUT_DIR)
