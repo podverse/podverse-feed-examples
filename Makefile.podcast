@@ -1,5 +1,5 @@
-ORIGINAL_AUDIO_DIR = mediums/podcast/greatest_speeches_of_the_20th_century/assets/original/mp3
-ORIGINAL_VIDEO_DIR = mediums/podcast/greatest_speeches_of_the_20th_century/assets/original/webm
+ORIGINAL_AUDIO_DIR = mediums/podcast/greatest_speeches_of_the_20th_century/assets/original/audio
+ORIGINAL_VIDEO_DIR = mediums/podcast/greatest_speeches_of_the_20th_century/assets/original/video
 OUT_DIR = mediums/podcast/greatest_speeches_of_the_20th_century/assets/converted
 
 MP3S = $(wildcard $(ORIGINAL_AUDIO_DIR)/*.mp3)
@@ -17,88 +17,71 @@ VIDEO_BASENAMES = $(notdir $(basename $(WEBMS)))
 
 LOFI_BITRATE = 64k
 HIFI_BITRATE = 192k
-MP3_HIFI_BITRATE = 256k
 
-VIDEO_LOFI_BITRATE = 300k
-VIDEO_LOWERFI_BITRATE = 150k
+VIDEO_BITRATE = 300k
 
-M4A_DIR = $(OUT_DIR)/audio/m4a
-OGG_DIR = $(OUT_DIR)/audio/ogg
-MP3_DIR = $(OUT_DIR)/audio/mp3
-WAV_DIR = $(OUT_DIR)/audio/wav
-MP4_DIR = $(OUT_DIR)/video/mp4
-MOV_DIR = $(OUT_DIR)/video/mov
-WEBM_DIR = $(OUT_DIR)/video/webm
+AUDIO_DIR = $(OUT_DIR)/audio
+VIDEO_DIR = $(OUT_DIR)/video
 
-EXT_DIRS = $(M4A_DIR) $(OGG_DIR) $(MP3_DIR) $(WAV_DIR) $(MP4_DIR) $(MOV_DIR) $(WEBM_DIR)
+EXT_DIRS = $(AUDIO_DIR) $(VIDEO_DIR)
 
 ALL_AUDIO_OUTPUTS = \
-		$(foreach base,$(AUDIO_BASENAMES), \
-				$(M4A_DIR)/$(base)_lofi.m4a \
-				$(M4A_DIR)/$(base)_hifi.m4a \
-				$(OGG_DIR)/$(base)_lofi.ogg \
-				$(OGG_DIR)/$(base)_hifi.ogg \
-				$(MP3_DIR)/$(base)_lofi.mp3 \
-				$(MP3_DIR)/$(base)_hifi.mp3 \
-				$(WAV_DIR)/$(base).wav)
+				$(foreach base,$(AUDIO_BASENAMES), \
+								$(AUDIO_DIR)/$(base)_lofi.m4a \
+								$(AUDIO_DIR)/$(base)_hifi.m4a \
+								$(AUDIO_DIR)/$(base)_lofi.ogg \
+								$(AUDIO_DIR)/$(base)_hifi.ogg \
+								$(AUDIO_DIR)/$(base)_lofi.mp3 \
+								$(AUDIO_DIR)/$(base)_hifi.mp3 \
+								$(AUDIO_DIR)/$(base).wav)
 
 ALL_VIDEO_OUTPUTS = \
-		$(foreach base,$(VIDEO_BASENAMES), \
-				$(MP4_DIR)/$(base)_lofi.mp4 \
-				$(MP4_DIR)/$(base)_lowerfi.mp4 \
-				$(MOV_DIR)/$(base)_lofi.mov \
-				$(MOV_DIR)/$(base)_lowerfi.mov \
-				$(WEBM_DIR)/$(base)_lofi.webm \
-				$(WEBM_DIR)/$(base)_lowerfi.webm)
+				$(foreach base,$(VIDEO_BASENAMES), \
+								$(VIDEO_DIR)/$(base)_lofi.mp4 \
+								$(VIDEO_DIR)/$(base)_lowerfi.mp4 \
+								$(VIDEO_DIR)/$(base)_lofi.webm \
+								$(VIDEO_DIR)/$(base)_lowerfi.webm)
 
 ALL_OUTPUTS = $(ALL_AUDIO_OUTPUTS) $(ALL_VIDEO_OUTPUTS)
 
-.PHONY: podcast_convert_assets clean
+.PHONY: podcast_convert_assets
 podcast_convert_assets: $(ALL_OUTPUTS)
 
 $(EXT_DIRS):
-		mkdir -p $@
+				mkdir -p $@
 
 # Audio conversion rules
-$(M4A_DIR)/%_lofi.m4a: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(M4A_DIR)
-		ffmpeg -y -i $< -c:a aac -b:a $(LOFI_BITRATE) $@
+$(AUDIO_DIR)/%_lofi.m4a: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a aac -b:a $(LOFI_BITRATE) $@
 
-$(M4A_DIR)/%_hifi.m4a: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(M4A_DIR)
-		ffmpeg -y -i $< -c:a aac -b:a $(HIFI_BITRATE) $@
+$(AUDIO_DIR)/%_hifi.m4a: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a aac -b:a $(HIFI_BITRATE) $@
 
-$(OGG_DIR)/%_lofi.ogg: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(OGG_DIR)
-		ffmpeg -y -i $< -c:a libvorbis -b:a $(LOFI_BITRATE) $@
+$(AUDIO_DIR)/%_lofi.ogg: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a libvorbis -b:a $(LOFI_BITRATE) $@
 
-$(OGG_DIR)/%_hifi.ogg: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(OGG_DIR)
-		ffmpeg -y -i $< -c:a libvorbis -b:a $(HIFI_BITRATE) $@
+$(AUDIO_DIR)/%_hifi.ogg: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a libvorbis -b:a $(HIFI_BITRATE) $@
 
-$(MP3_DIR)/%_lofi.mp3: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(MP3_DIR)
-		ffmpeg -y -i $< -c:a libmp3lame -b:a $(LOFI_BITRATE) $@
+$(AUDIO_DIR)/%_lofi.mp3: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a libmp3lame -b:a $(LOFI_BITRATE) $@
 
-$(MP3_DIR)/%_hifi.mp3: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(MP3_DIR)
-		ffmpeg -y -i $< -c:a libmp3lame -b:a $(MP3_HIFI_BITRATE) $@
+$(AUDIO_DIR)/%_hifi.mp3: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a libmp3lame -b:a $(HIFI_BITRATE) $@
 
-$(WAV_DIR)/%.wav: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(WAV_DIR)
-		ffmpeg -y -i $< -c:a pcm_s16le $@
+$(AUDIO_DIR)/%.wav: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a pcm_s16le $@
 
-# Video conversion rules (extra light bandwidth)
-$(MP4_DIR)/%_lofi.mp4: $(ORIGINAL_VIDEO_DIR)/%.webm | $(MP4_DIR)
-		ffmpeg -y -i $< -c:v libx264 -b:v $(VIDEO_LOFI_BITRATE) -c:a aac -b:a 32k $@
+# Video conversion rules (lofi: 360p, lowerfi: 240p, same bitrate)
+$(VIDEO_DIR)/%_lofi.mp4: $(ORIGINAL_VIDEO_DIR)/%.webm | $(VIDEO_DIR)
+				ffmpeg -y -i $< -vf scale=-2:360 -c:v libx264 -b:v $(VIDEO_BITRATE) -c:a aac -b:a 32k $@
 
-$(MP4_DIR)/%_lowerfi.mp4: $(ORIGINAL_VIDEO_DIR)/%.webm | $(MP4_DIR)
-		ffmpeg -y -i $< -c:v libx264 -b:v $(VIDEO_LOWERFI_BITRATE) -c:a aac -b:a 24k $@
+$(VIDEO_DIR)/%_lowerfi.mp4: $(ORIGINAL_VIDEO_DIR)/%.webm | $(VIDEO_DIR)
+				ffmpeg -y -i $< -vf scale=-2:240 -c:v libx264 -b:v $(VIDEO_BITRATE) -c:a aac -b:a 32k $@
 
-$(MOV_DIR)/%_lofi.mov: $(ORIGINAL_VIDEO_DIR)/%.webm | $(MOV_DIR)
-		ffmpeg -y -i $< -c:v prores_ks -profile:v 0 -b:v $(VIDEO_LOFI_BITRATE) -c:a aac -b:a 32k $@
+$(VIDEO_DIR)/%_lofi.webm: $(ORIGINAL_VIDEO_DIR)/%.webm | $(VIDEO_DIR)
+				ffmpeg -y -i $< -vf scale=-2:360 -c:v libvpx-vp9 -b:v $(VIDEO_BITRATE) -c:a libopus -b:a 32k $@
 
-$(MOV_DIR)/%_lowerfi.mov: $(ORIGINAL_VIDEO_DIR)/%.webm | $(MOV_DIR)
-		ffmpeg -y -i $< -c:v prores_ks -profile:v 0 -b:v $(VIDEO_LOWERFI_BITRATE) -c:a aac -b:a 24k $@
+$(VIDEO_DIR)/%_lowerfi.webm: $(ORIGINAL_VIDEO_DIR)/%.webm | $(VIDEO_DIR)
+				ffmpeg -y -i $< -vf scale=-2:240 -c:v libvpx-vp9 -b:v $(VIDEO_BITRATE) -c:a libopus -b:a 32k $@
 
-$(WEBM_DIR)/%_lofi.webm: $(ORIGINAL_VIDEO_DIR)/%.webm | $(WEBM_DIR)
-		ffmpeg -y -i $< -c:v libvpx-vp9 -b:v $(VIDEO_LOFI_BITRATE) -c:a libopus -b:a 32k $@
-
-$(WEBM_DIR)/%_lowerfi.webm: $(ORIGINAL_VIDEO_DIR)/%.webm | $(WEBM_DIR)
-		ffmpeg -y -i $< -c:v libvpx-vp9 -b:v $(VIDEO_LOWERFI_BITRATE) -c:a libopus -b:a 24k $@
-
-podcast_clean:
-		rm -rf $(OUT_DIR)
