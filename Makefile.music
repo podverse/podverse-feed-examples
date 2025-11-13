@@ -1,0 +1,92 @@
+ORIGINAL_AUDIO_DIR = mediums/music/nineinchnails_ghosts_I_IV/assets/original/audio
+OUT_DIR = mediums/music/nineinchnails_ghosts_I_IV/assets/converted
+
+MP3S = $(wildcard $(ORIGINAL_AUDIO_DIR)/*.mp3)
+ifeq ($(strip $(MP3S)),)
+$(error No MP3 files found in $(ORIGINAL_AUDIO_DIR))
+endif
+
+AUDIO_BASENAMES = $(notdir $(basename $(MP3S)))
+
+LOFI_BITRATE = 64k
+MIDFI_BITRATE = 128k
+HIFI_BITRATE = 320k
+
+AUDIO_DIR = $(OUT_DIR)/audio
+VIDEO_DIR = $(OUT_DIR)/video
+
+EXT_DIRS = $(AUDIO_DIR) $(VIDEO_DIR)
+
+ALL_AUDIO_OUTPUTS = \
+				$(foreach base,$(AUDIO_BASENAMES), \
+								$(AUDIO_DIR)/$(base)_lofi.m4a \
+								$(AUDIO_DIR)/$(base)_midfi.m4a \
+								$(AUDIO_DIR)/$(base)_hifi.m4a \
+								$(AUDIO_DIR)/$(base)_lofi.ogg \
+								$(AUDIO_DIR)/$(base)_midfi.ogg \
+								$(AUDIO_DIR)/$(base)_hifi.ogg \
+								$(AUDIO_DIR)/$(base)_lofi.mp3 \
+								$(AUDIO_DIR)/$(base)_midfi.mp3 \
+								$(AUDIO_DIR)/$(base)_hifi.mp3 \
+								$(AUDIO_DIR)/$(base).wav)
+
+# Add video conversion for 240p and 320p MP4
+ORIGINAL_VIDEO_DIR = mediums/music/nineinchnails_ghosts_I_IV/assets/original/video
+
+VIDEO_WEBMS = $(wildcard $(ORIGINAL_VIDEO_DIR)/*.webm)
+VIDEO_BASENAMES = $(notdir $(basename $(VIDEO_WEBMS)))
+
+VIDEO_240P = $(foreach base,$(VIDEO_BASENAMES),$(VIDEO_DIR)/$(base)_240p.mp4)
+VIDEO_320P = $(foreach base,$(VIDEO_BASENAMES),$(VIDEO_DIR)/$(base)_320p.mp4)
+
+ALL_VIDEO_OUTPUTS = $(VIDEO_240P) $(VIDEO_320P)
+
+.PHONY: music_convert_assets music_clean
+music_convert_assets: $(ALL_AUDIO_OUTPUTS) $(ALL_VIDEO_OUTPUTS)
+
+$(EXT_DIRS):
+				mkdir -p $@
+
+# MP3 conversions
+$(AUDIO_DIR)/%_lofi.mp3: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a libmp3lame -b:a $(LOFI_BITRATE) $@
+
+$(AUDIO_DIR)/%_midfi.mp3: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a libmp3lame -b:a $(MIDFI_BITRATE) $@
+
+$(AUDIO_DIR)/%_hifi.mp3: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				cp $< $@
+
+# M4A conversions
+$(AUDIO_DIR)/%_lofi.m4a: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a aac -b:a $(LOFI_BITRATE) $@
+
+$(AUDIO_DIR)/%_midfi.m4a: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a aac -b:a $(MIDFI_BITRATE) $@
+
+$(AUDIO_DIR)/%_hifi.m4a: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a aac -b:a $(HIFI_BITRATE) $@
+
+# OGG conversions
+$(AUDIO_DIR)/%_lofi.ogg: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a libvorbis -b:a $(LOFI_BITRATE) $@
+
+$(AUDIO_DIR)/%_midfi.ogg: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a libvorbis -b:a $(MIDFI_BITRATE) $@
+
+$(AUDIO_DIR)/%_hifi.ogg: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a libvorbis -b:a $(HIFI_BITRATE) $@
+
+# WAV conversion (always full quality)
+$(AUDIO_DIR)/%.wav: $(ORIGINAL_AUDIO_DIR)/%.mp3 | $(AUDIO_DIR)
+				ffmpeg -y -i $< -c:a pcm_s16le $@
+
+# Video conversions
+$(VIDEO_DIR)/%_240p.mp4: $(ORIGINAL_VIDEO_DIR)/%.webm | $(VIDEO_DIR)
+				ffmpeg -y -i $< -vf scale=-2:240 -c:v libx264 -b:v 300k -c:a aac -b:a 32k $@
+
+$(VIDEO_DIR)/%_320p.mp4: $(ORIGINAL_VIDEO_DIR)/%.webm | $(VIDEO_DIR)
+				ffmpeg -y -i $< -vf scale=-2:320 -c:v libx264 -b:v 300k -c:a aac -b:a 32k $@
+
+music_clean:
+				rm -rf $(OUT_DIR)
