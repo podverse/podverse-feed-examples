@@ -1,4 +1,4 @@
-ORIGINAL_VIDEO_DIR = mediums/video/looney_tunes_1948/assets/original/mp4
+ORIGINAL_VIDEO_DIR = mediums/video/looney_tunes_1948/assets/original/video
 OUT_DIR = mediums/video/looney_tunes_1948/assets/converted
 
 MP4S = $(wildcard $(ORIGINAL_VIDEO_DIR)/*.mp4)
@@ -22,7 +22,7 @@ ALL_VIDEO_OUTPUTS = \
 								$(VIDEO_DIR)/$(base)_lowerfi.webm \
 								$(AUDIO_DIR)/$(base)_lofi.mp3)
 
-.PHONY: video_convert_assets video_clean
+.PHONY: video_convert_assets
 video_convert_assets: $(ALL_VIDEO_OUTPUTS)
 
 $(EXT_DIRS):
@@ -52,6 +52,3 @@ $(VIDEO_DIR)/%_lowerfi.webm: $(ORIGINAL_VIDEO_DIR)/%.mp4 | $(VIDEO_DIR)
 # Extract lofi MP3 audio
 $(AUDIO_DIR)/%_lofi.mp3: $(ORIGINAL_VIDEO_DIR)/%.mp4 | $(AUDIO_DIR)
 				ffmpeg -y -i $< -vn -c:a libmp3lame -b:a $(AUDIO_LOFI_BITRATE) $@
-
-video_clean:
-				rm -rf $(OUT_DIR)
