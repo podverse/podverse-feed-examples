@@ -1,0 +1,60 @@
+ORIGINAL_VIDEO_DIR = mediums/video/looney_tunes_1948/assets/original/mp4
+OUT_DIR = mediums/video/looney_tunes_1948/assets/converted
+
+MP4S = $(wildcard $(ORIGINAL_VIDEO_DIR)/*.mp4)
+VIDEO_BASENAMES = $(notdir $(basename $(MP4S)))
+
+VIDEO_LOFI_BITRATE = 300k
+VIDEO_LOWERFI_BITRATE = 150k
+AUDIO_LOFI_BITRATE = 64k
+
+MP4_DIR = $(OUT_DIR)/video/mp4
+MOV_DIR = $(OUT_DIR)/video/mov
+WEBM_DIR = $(OUT_DIR)/video/webm
+MP3_DIR = $(OUT_DIR)/audio/mp3
+
+EXT_DIRS = $(MP4_DIR) $(MOV_DIR) $(WEBM_DIR) $(MP3_DIR)
+
+ALL_VIDEO_OUTPUTS = \
+		$(foreach base,$(VIDEO_BASENAMES), \
+				$(MP4_DIR)/$(base)_lofi.mp4 \
+				$(MP4_DIR)/$(base)_lowerfi.mp4 \
+				$(MOV_DIR)/$(base)_lofi.mov \
+				$(MOV_DIR)/$(base)_lowerfi.mov \
+				$(WEBM_DIR)/$(base)_lofi.webm \
+				$(WEBM_DIR)/$(base)_lowerfi.webm \
+				$(MP3_DIR)/$(base)_lofi.mp3)
+
+.PHONY: video_convert_assets video_clean
+video_convert_assets: $(ALL_VIDEO_OUTPUTS)
+
+$(EXT_DIRS):
+		mkdir -p $@
+
+# MP4 conversions
+$(MP4_DIR)/%_lofi.mp4: $(ORIGINAL_VIDEO_DIR)/%.mp4 | $(MP4_DIR)
+		ffmpeg -y -i $< -c:v libx264 -b:v $(VIDEO_LOFI_BITRATE) -c:a aac -b:a 32k $@
+
+$(MP4_DIR)/%_lowerfi.mp4: $(ORIGINAL_VIDEO_DIR)/%.mp4 | $(MP4_DIR)
+		ffmpeg -y -i $< -c:v libx264 -b:v $(VIDEO_LOWERFI_BITRATE) -c:a aac -b:a 24k $@
+
+# MOV conversions
+$(MOV_DIR)/%_lofi.mov: $(ORIGINAL_VIDEO_DIR)/%.mp4 | $(MOV_DIR)
+		ffmpeg -y -i $< -c:v prores_ks -profile:v 0 -b:v $(VIDEO_LOFI_BITRATE) -c:a aac -b:a 32k $@
+
+$(MOV_DIR)/%_lowerfi.mov: $(ORIGINAL_VIDEO_DIR)/%.mp4 | $(MOV_DIR)
+		ffmpeg -y -i $< -c:v prores_ks -profile:v 0 -b:v $(VIDEO_LOWERFI_BITRATE) -c:a aac -b:a 24k $@
+
+# WEBM conversions
+$(WEBM_DIR)/%_lofi.webm: $(ORIGINAL_VIDEO_DIR)/%.mp4 | $(WEBM_DIR)
+		ffmpeg -y -i $< -c:v libvpx-vp9 -b:v $(VIDEO_LOFI_BITRATE) -c:a libopus -b:a 32k $@
+
+$(WEBM_DIR)/%_lowerfi.webm: $(ORIGINAL_VIDEO_DIR)/%.mp4 | $(WEBM_DIR)
+		ffmpeg -y -i $< -c:v libvpx-vp9 -b:v $(VIDEO_LOWERFI_BITRATE) -c:a libopus -b:a 24k $@
+
+# Extract lofi MP3 audio
+$(MP3_DIR)/%_lofi.mp3: $(ORIGINAL_VIDEO_DIR)/%.mp4 | $(MP3_DIR)
+		ffmpeg -y -i $< -vn -c:a libmp3lame -b:a $(AUDIO_LOFI_BITRATE) $@
+
+video_clean:
+		rm -rf $(OUT_DIR)
